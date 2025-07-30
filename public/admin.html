@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Rootify</title>
+    <link rel="stylesheet" href="styles.css">
+    </head>
+<body>
+    <div class="center-logo-box">
+        <div class="center-logo-img">
+            <img src="pic/logo.png" alt="Rootify Logo">
+        </div>
+        <div class="center-logo-text">Grow Smarter with Rootify</div>
+    </div>
+
+    <main class="admin-main-content">
+        <div class="admin-glass-box">
+            <div class="admin-img-box">
+                <img src="https://cdn-icons-png.flaticon.com/512/2304/2304226.png" alt="Admin Dashboard Image">
+            </div>
+            <div class="admin-info">
+                <h2>Welcome, <span id="admin-name">Admin!</span></h2>
+                <p>Manage users, view analytics, and oversee all farming operations from your dashboard.</p>
+                <button id="logout-btn" style="display:none;">Log Out</button>
+            </div>
+        </div>
+        <hr>
+        <div class="admin-large-box">
+            <h3>Admin Tools Overview</h3>
+            <p>Use the sections below to manage soil types and distributor information. All changes are saved directly to your Firestore database.</p>
+        </div>
+
+        <div class="data-management-section">
+            <h3>Manage Soil Types</h3>
+            <form id="add-soil-form">
+                <h4>Add New Soil Type</h4>
+                <input type="text" id="soil-name" placeholder="Soil Name (e.g., Clay)" required>
+                <input type="number" id="soil-ph" placeholder="pH (e.g., 6.5)" step="0.1" required>
+                <input type="text" id="soil-nutrients" placeholder="Nutrients (e.g., NPK rich)" required>
+                <input type="text" id="soil-water-retention" placeholder="Water Retention (e.g., High)" required>
+                <textarea id="soil-recommended-crops" placeholder="Recommended Crops (comma-separated: Wheat, Corn)" rows="2"></textarea>
+                <button type="submit">Add Soil Type</button>
+            </form>
+            <h4>Existing Soil Types</h4>
+            <ul id="soil-list" class="data-list">
+                <li>Loading soil data...</li>
+            </ul>
+        </div>
+
+        <hr>
+
+        <div class="data-management-section">
+            <h3>Manage Distributor Data</h3>
+            <form id="add-distributor-form">
+                <h4>Add New Distributor</h4>
+                <input type="text" id="distributor-name" placeholder="Distributor Name (e.g., AgriSupplies Inc.)" required>
+                <input type="text" id="distributor-contact" placeholder="Contact Person (e.g., John Doe)" required>
+                <input type="text" id="distributor-location" placeholder="Location (e.g., City, State)" required>
+                <button type="submit">Add Distributor</button>
+            </form>
+            <h4>Existing Distributors</h4>
+            <ul id="distributor-list" class="data-list">
+                <li>Loading distributor data...</li>
+            </ul>
+        </div>
+    </main>
+
+    <script type="module" src="./admin-script.js"></script>
+    <script
+        src='https://cdn.jotfor.ms/agent/embedjs/019830c2159c7093956099a447ee3906bc72/embed.js?skipWelcome=1&maximizable=1'>
+    </script>
+</body>
+</html>

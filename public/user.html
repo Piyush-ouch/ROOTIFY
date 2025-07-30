@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - Rootify</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- UPDATED: Content Security Policy (CSP) to allow all necessary connections -->
+</head>
+<body>
+    <div class="center-logo-box">
+        <div class="center-logo-img">
+            <img src="pic/logo.png" alt="Rootify Logo">
+        </div>
+        <div class="center-logo-text">Grow Smarter with Rootify</div>
+    </div>
+
+    <main class="user-main-content">
+        <div class="user-content-box">
+            <h2>Welcome to Rootify!</h2>
+            <p style="text-align: center; color: #333;">Explore recommended soil types and our trusted distributors.</p>
+
+            <h3>Available Soil Types</h3>
+            <ul id="user-soil-list" class="data-list">
+                <li>Loading soil data...</li>
+            </ul>
+
+            <h3>Our Distributors</h3>
+            <ul id="user-distributor-list" class="data-list">
+                <li>Loading distributor data...</li>
+            </ul>
+
+            <hr>
+
+            <!-- Soil Recommendation AI Assistant Section -->
+            <div class="data-management-section ai-assistant-section">
+                <h3>✨ Soil Recommendation Assistant</h3>
+                <p>Describe your farm and needs, and our AI will suggest suitable soil types and crops.</p>
+                <textarea id="ai-recommendation-input" placeholder="E.g., 'I have a small farm in a tropical region, sandy soil with poor water retention. I want to grow vegetables.' or 'I'm in a temperate climate, clay soil, looking to grow fruits. What soil amendments are best?'" rows="5"></textarea>
+                <button id="get-ai-recommendation-btn">Get AI Recommendation</button>
+                <p id="ai-recommendation-status" class="status-message"></p>
+                <div id="ai-recommendation-output" class="ai-output-box">
+                    <!-- AI recommendations will appear here -->
+                </div>
+            </div>
+
+            <hr>
+
+            <!-- Crop Disease & Pest Identification Section -->
+            <div class="data-management-section ai-assistant-section">
+                <h3>🌿 Crop Disease & Pest Identifier</h3>
+                <p>Upload an image of your plant and describe the symptoms to get a diagnosis and recommendations.</p>
+                <input type="file" id="crop-image-upload" accept="image/*" class="file-input">
+                <div id="image-preview-container" class="image-preview-container" style="display: none;">
+                    <img id="uploaded-crop-image" src="#" alt="Image Preview" class="uploaded-image-preview">
+                    <button id="clear-crop-image" class="clear-image-btn">X</button>
+                </div>
+                <textarea id="crop-symptoms-input" placeholder="Describe symptoms (e.g., 'Yellowing leaves', 'Spots on fruit', 'Small insects on stem')." rows="3"></textarea>
+                <button id="get-crop-diagnosis-btn">Analyze Plant</button>
+                <p id="crop-diagnosis-status" class="status-message"></p>
+                <div id="crop-diagnosis-output" class="ai-output-box">
+                    <!-- AI diagnosis and recommendations will appear here -->
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script type="module" src="./user-script.js"></script>
+    <script
+        src='https://cdn.jotfor.ms/agent/embedjs/019830c2159c7093956099a447ee3906bc72/embed.js?skipWelcome=1&maximizable=1'>
+    </script>
+</body>
+</html>

@@ -1,0 +1,771 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+/* Global Body Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', Arial, sans-serif;
+    min-height: 100vh;
+    background: url('https://images.pexels.com/photos/974314/pexels-photo-974314.jpeg?cs=srgb&dl=pexels-timmossholder-974314.jpg&fm=jpg') center/cover no-repeat fixed;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center children horizontally */
+}
+
+/* NEW CENTRAL LOGO BOX STYLES */
+.center-logo-box {
+    margin-top: 30px; /* Space from top of the body */
+    margin-bottom: 2.5rem; /* Space below the logo box for following content */
+    background: rgba(255,255,255,0.22);
+    box-shadow: 0 4px 24px 0 rgba(31,38,135,0.18);
+    border-radius: 24px;
+    padding: 1.2rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    min-width: 260px;
+    max-width: 90vw;
+    text-align: center;
+}
+.center-logo-img {
+    width: 90px; /* Smaller size for circular logo */
+    height: 90px; /* Smaller size for circular logo */
+    border-radius: 50%;
+    overflow: hidden;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.7rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+}
+.center-logo-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%; /* Ensure image is circular inside its container */
+}
+.center-logo-text {
+    color: #1e3c72;
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 0.2rem;
+    letter-spacing: 0.5px;
+}
+
+
+/* Main Container (used in index.html for carousel and auth section) */
+.main-container {
+    min-height: calc(100vh - 4rem);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100vw;
+    max-width: 1200px; /* Optional: max width for the main content area */
+    box-sizing: border-box;
+    /* margin-top is handled by .center-logo-box's margin-bottom */
+    margin-bottom: 2.5rem; /* Space at the bottom */
+}
+
+/* Content within main-container (e.g., carousel and auth section in index.html) */
+.main-content { /* This div is inside .main-container in index.html */
+    display: flex;
+    gap: 2.5rem;
+    align-items: flex-start;
+    justify-content: center;
+    height: auto;
+    width: 100%;
+    max-width: 1200px;
+    box-sizing: border-box;
+    /* margin-top will be handled by .main-container */
+}
+
+
+/* Carousel Box (specific to index.html) */
+.carousel-box {
+    flex: 1 1 0;
+    min-width: 320px;
+    max-width: 520px;
+    height: 80vh;
+    max-height: 650px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+.image-box {
+    background: rgba(255,255,255,0.13);
+    backdrop-filter: blur(10px);
+    border-radius: 22px;
+    box-shadow: 0 8px 32px rgba(30,60,114,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 95%;
+    height: 95%;
+    margin: 32px auto 0 auto;
+    min-height: 260px;
+}
+.image-overlay-container {
+    position: relative;
+    width: 95%;
+    height: 95%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.showcase-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px;
+}
+.image-overlay-text {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(0, -50%);
+    background: rgba(255,255,255,0.45);
+    padding: 1.2rem 2rem;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(30,60,114,0.10);
+    text-align: left;
+    min-width: 320px;
+    max-width: 380px;
+}
+.image-overlay-text.left-align {
+    left: 40px;
+    transform: translate(0, -50%);
+    text-align: left;
+}
+.overlay-title {
+    color: #1e3c72;
+    font-size: 1.7rem;
+    font-weight: bold;
+    margin: 0 0 0.5rem 0;
+}
+.overlay-desc {
+    color: #333;
+    font-size: 1.05rem;
+    margin: 0;
+}
+
+/* Auth Section (login/register forms) */
+#auth-section {
+    max-width: 375px;
+    min-width: 240px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(12px);
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(30,60,114,0.18);
+    padding: 0.5rem 2rem 2.5rem 2rem;
+    border: 1px solid rgba(255,255,255,0.25);
+    animation: fadeIn 1s ease;
+    flex: 0 0 375px;
+    margin-top: 0;
+}
+.form-title {
+    text-align: center;
+    font-weight: bold;
+}
+#auth-section h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: #1e3c72;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+}
+input[type="email"], input[type="password"] {
+    margin-bottom: 1.2rem;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.7);
+    font-size: 1rem;
+    box-shadow: 0 2px 8px rgba(30,60,114,0.08);
+    transition: box-shadow 0.2s;
+}
+select#register-role {
+    margin-bottom: 1.2rem;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.7);
+    font-size: 1rem;
+    box-shadow: 0 2px 8px rgba(30,60,114,0.08);
+    transition: box-shadow 0.2s;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+    color: #222;
+}
+select#register-role:focus {
+    box-shadow: 0 0 0 2px #29516a;
+}
+input.styled-input {
+    margin-bottom: 1.2rem;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.7);
+    font-size: 1rem;
+    box-shadow: 0 2px 8px rgba(30,60,114,0.08);
+    transition: box-shadow 0.2s;
+}
+input[type="email"]:focus, input[type="password"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #29516a;
+}
+input.styled-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #29516a;
+}
+button {
+    padding: 0.75rem;
+    background: linear-gradient(90deg, #29516a 0%, #29516a 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(34,197,94,0.12);
+    transition: background 0.3s, transform 0.2s;
+}
+button:hover {
+    background: linear-gradient(90deg, #29516a 0%, #29516a 100%);
+    transform: translateY(-2px) scale(1.03);
+}
+#auth-message {
+    color: #d32f2f;
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 1rem;
+    min-height: 1.5em;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Toggle buttons for login type */
+#login-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 2rem auto 0 auto;
+    position: relative;
+    top: -30px;
+}
+.toggle-btn {
+    padding: 0.5rem 2.2rem;
+    margin-top: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #1e3c72 0%, #1e3c72 100%);
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(34,197,94,0.12);
+    transition: background 0.3s, transform 0.2s;
+    outline: none;
+}
+.toggle-btn.active {
+    background: linear-gradient(90deg, #1e3c72 0%, #1e3c72 100%);
+    transform: scale(1.05);
+}
+.toggle-btn:not(.active) {
+    opacity: 0.7;
+}
+#login-container .login-section {
+    display: none;
+}
+#login-container .login-section.active {
+    display: flex;
+}
+
+/* Admin/User Dashboard Specific Styles */
+/* Admin/User Main Content Wrapper (these are for <main> with class admin-main-content or user-main-content) */
+.admin-main-content, .user-main-content {
+    margin-top: 2.5rem; /* Space below the center-logo-box */
+    margin-bottom: 2.5rem; /* Space at the bottom */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center children horizontally */
+    width: 90vw; /* Take most of the viewport width */
+    max-width: 700px; /* Limit overall content width */
+    box-sizing: border-box;
+}
+
+/* Transparent Glass Box Styles (Applied to specific content sections) */
+.admin-glass-box, .user-content-box, .data-management-section {
+    background: rgba(255,255,255,0.18);
+    box-shadow: 0 8px 32px 0 rgba(31,38,135,0.37);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 2rem 2.5rem;
+    color: #222; /* Text color inside the box */
+    width: 100%; /* Take full width of its parent (.admin-main-content or .user-main-content) */
+    box-sizing: border-box;
+    margin-bottom: 2.5rem; /* Consistent spacing below each box */
+}
+
+/* Specific adjustment for admin-large-box */
+.admin-large-box {
+    background: rgba(255,255,255,0.18); /* Ensure it has background */
+    box-shadow: 0 8px 32px 0 rgba(31,38,135,0.37);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 2rem 2.5rem;
+    color: #222;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 0; /* It follows an HR which already has bottom margin */
+    margin-bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: left;
+}
+
+
+/* Top Admin Info Box Specific (shares some general glass-box styles) */
+.admin-glass-box {
+    display: flex;
+    align-items: flex-start;
+    min-height: 220px;
+    /* margin-top is handled by .admin-main-content */
+}
+
+/* Image inside Admin Info Box */
+.admin-img-box {
+    flex: 0 0 160px;
+    margin-right: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.admin-img-box img {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+}
+
+/* Text Content within Admin Info Box */
+.admin-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.admin-info h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 2rem;
+    color: #222;
+}
+.admin-info p {
+    margin: 0;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+/* Logout Button */
+#logout-btn {
+    background-color: #f44336; /* Red for logout */
+    color: white;
+    padding: 0.6rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-top: 1rem; /* Space from text */
+    transition: background-color 0.3s ease;
+    align-self: flex-start; /* Align with text */
+}
+#logout-btn:hover {
+    background-color: #da190b;
+}
+
+/* Horizontal Rule Separator */
+hr {
+    width: 100%; /* Take full width of parent (.admin-main-content or .user-main-content) */
+    max-width: 700px; /* Match content max width */
+    margin-top: 2.5rem; /* Space above HR */
+    margin-bottom: 2.5rem; /* Space below HR */
+    border: 0;
+    border-top: 2px solid rgba(255,255,255,0.7);
+}
+
+/* Data Management Sections (Soil, Distributor) */
+.data-management-section h3 {
+    color: #222;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+.data-management-section form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+}
+.data-management-section input[type="text"],
+.data-management-section input[type="number"],
+.data-management-section textarea {
+    padding: 0.8rem;
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 8px;
+    background: rgba(255,255,255,0.4);
+    color: #222;
+    font-size: 1rem;
+    width: calc(100% - 1.6rem); /* Account for padding */
+}
+.data-management-section input[type="text"]::placeholder,
+.data-management-section input[type="number"]::placeholder,
+.data-management-section textarea::placeholder {
+    color: #555;
+}
+.data-management-section button {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    padding: 0.8rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+.data-management-section button:hover {
+    background-color: #45a049;
+}
+
+/* Data Lists (soil types, distributors) */
+.data-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 1rem;
+}
+.data-list li {
+    background: rgba(255,255,255,0.25);
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: #333;
+}
+.data-list li strong {
+    color: #000;
+}
+.data-list li button {
+    background-color: #f44336; /* Red for delete */
+    margin-left: 0.5rem; /* Space from text */
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+}
+.data-list li button:hover {
+    background-color: #da190b;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 900px) {
+    /* Main container and content */
+    .main-container {
+        flex-direction: column;
+        align-items: stretch; /* Stretch to fill width */
+        margin-top: 1.5rem; /* Adjusted margin */
+        padding: 0 1rem; /* Add horizontal padding */
+    }
+    .main-content {
+        flex-direction: column;
+        gap: 1.2rem;
+        width: 100%; /* Use full width */
+        margin-top: 0; /* Margin handled by main-container */
+        padding: 0; /* No extra padding inside main-content here */
+    }
+    .carousel-box {
+        height: 220px;
+        max-height: 350px;
+        margin-bottom: 0; /* Remove extra margin here */
+    }
+    .image-box {
+        height: 100%; /* Use full height of carousel-box */
+        margin: auto; /* Center horizontally */
+    }
+    #auth-section {
+        max-width: 100%; /* Take full width on smaller screens */
+        padding: 1.2rem 0.7rem;
+    }
+    #login-toggle {
+        margin-top: 1rem;
+        top: 0;
+    }
+
+    /* Smaller logo box for medium screens */
+    .center-logo-box {
+        margin-top: 20px;
+        padding: 0.8rem 1.5rem;
+        border-radius: 20px;
+    }
+    .center-logo-img {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 0.5rem;
+    }
+    .center-logo-text {
+        font-size: 1.1rem;
+    }
+    /* Adjusted general content boxes for responsiveness */
+    .admin-glass-box, .user-content-box, .data-management-section, .admin-large-box {
+        width: 100%; /* Use full width of their parent .admin-main-content or .user-main-content */
+        padding: 1.5rem 1.5rem; /* Adjust padding for smaller screens */
+    }
+    hr {
+        width: 100%;
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+}
+@media (max-width: 600px) {
+    .main-container {
+        margin-top: 1rem;
+        padding: 0 0.5rem;
+    }
+    .main-content {
+        gap: 0.7rem;
+        padding: 0;
+    }
+    .carousel-box {
+        height: 140px;
+        max-height: 200px;
+    }
+    .image-box {
+        height: 100%;
+        margin: auto;
+    }
+    #auth-section {
+        padding: 0.7rem 0.2rem;
+    }
+    .center-logo-box {
+        margin-top: 15px;
+        padding: 0.5rem 1rem;
+        border-radius: 15px;
+    }
+    .center-logo-img {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 0.3rem;
+    }
+    .center-logo-text {
+        font-size: 1rem;
+    }
+    .admin-glass-box, .user-content-box, .data-management-section, .admin-large-box {
+        padding: 1rem 0.5rem;
+    }
+    hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+    .data-management-section input[type="text"],
+    .data-management-section input[type="number"],
+    .data-management-section textarea {
+        width: calc(100% - 1rem); /* Adjust for smaller padding */
+    }
+}
+
+/* Styles for AI Assistant section (existing) */
+.ai-assistant-section {
+    margin-top: 2.5rem;
+    padding: 2rem 2.5rem;
+    background: rgba(255,255,255,0.18);
+    box-shadow: 0 8px 32px 0 rgba(31,38,135,0.37);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #222;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.ai-assistant-section h3 {
+    color: #1e3c72;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+#ai-recommendation-input, #crop-symptoms-input { /* Apply to both textareas */
+    width: calc(100% - 20px); /* Account for padding */
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.7);
+    color: #222;
+    font-size: 1rem;
+    resize: vertical;
+    min-height: 80px;
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+#get-ai-recommendation-btn, #get-crop-diagnosis-btn { /* Apply to both buttons */
+    background-color: #29516a; /* Darker blue for action button */
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    align-self: flex-start; /* Align to the left */
+}
+
+#get-ai-recommendation-btn:hover, #get-crop-diagnosis-btn:hover {
+    background-color: #3b6691;
+    transform: translateY(-1px);
+}
+
+#get-ai-recommendation-btn:disabled, #get-crop-diagnosis-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.status-message {
+    font-size: 0.9rem;
+    margin-top: 10px;
+    min-height: 1.2em; /* Reserve space to prevent layout shifts */
+}
+
+.ai-output-box {
+    background: rgba(255,255,255,0.25);
+    padding: 1rem;
+    border-radius: 10px;
+    margin-top: 1.5rem;
+    width: 100%;
+    min-height: 100px;
+    box-sizing: border-box;
+    color: #333;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    white-space: pre-wrap; /* Preserve whitespace and line breaks */
+    word-wrap: break-word; /* Break long words */
+}
+
+.ai-output-box p {
+    margin: 0;
+}
+
+/* Responsive adjustments for AI Assistant */
+@media (max-width: 600px) {
+    .ai-assistant-section {
+        padding: 1rem 1rem;
+    }
+    #ai-recommendation-input, #crop-symptoms-input {
+        width: calc(100% - 10px); /* Adjust for smaller padding */
+    }
+}
+
+/* NEW: Styles for Crop Disease & Pest Identifier */
+.file-input {
+    display: block; /* Make it a block element */
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.7);
+    color: #222;
+    font-size: 1rem;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.image-preview-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid rgba(255,255,255,0.5);
+    box-sizing: border-box;
+    width: 100%;
+    justify-content: space-between; /* Space out image and button */
+}
+
+.uploaded-image-preview {
+    max-width: 100px; /* Limit preview image size */
+    max-height: 100px;
+    border-radius: 5px;
+    object-fit: contain; /* Ensure image fits without cropping */
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.clear-image-btn {
+    background-color: #dc3545; /* Red for clear button */
+    color: white;
+    border: none;
+    border-radius: 50%; /* Circular button */
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* Prevent shrinking */
+    transition: background-color 0.2s ease;
+}
+
+.clear-image-btn:hover {
+    background-color: #c82333;
+}
+
+/* Adjustments for small screens */
+@media (max-width: 600px) {
+    .file-input {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+    .image-preview-container {
+        flex-direction: column; /* Stack image and button on small screens */
+        align-items: center;
+        padding: 8px;
+    }
+    .uploaded-image-preview {
+        max-width: 80px;
+        max-height: 80px;
+        margin-bottom: 8px;
+    }
+    .clear-image-btn {
+        width: 24px;
+        height: 24px;
+        font-size: 0.7rem;
+    }
+}

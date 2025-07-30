@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soil Farming Agent</title>
+    <link rel="stylesheet" href="styles.css">
+    </head>
+<body>
+    <div class="center-logo-box">
+        <div class="center-logo-img">
+            <img src="pic/logo.png" alt="Rootify Logo">
+        </div>
+        <div class="center-logo-text">Grow Smarter with Rootify</div>
+    </div>
+
+    <main class="main-container">
+        <div id="main-content" class="main-content">
+            <aside id="carousel-box" class="carousel-box">
+                <div id="image-box" class="image-box">
+                    <div class="image-overlay-container">
+                        <img src="https://thumb.photo-ac.com/a8/a88535daec7455ffb0d4b49604c3c97f_t.jpeg" alt="Soil Showcase" class="showcase-img">
+                        <div class="image-overlay-text left-align">
+                            <h2 class="overlay-title">Welcome to Rootify</h2>
+                            <p class="overlay-desc">Empowering farmers and admins with smart soil insights and modern farming tools.</p>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <section id="auth-section">
+                <div id="login-toggle">
+                    <button id="show-user" class="toggle-btn active">User</button>
+                    <button id="show-admin" class="toggle-btn">Admin</button>
+                </div>
+                <form id="user-login-form" class="toggle-form active">
+                    <h2 class="form-title">User Login</h2>
+                    <input type="email" id="user-email" placeholder="Email" required>
+                    <input type="password" id="user-password" placeholder="Password" required>
+                    <button type="submit" id="login-button">Login</button>
+                    <div id="login-message"></div>
+                </form>
+                <form id="admin-login-form" class="toggle-form" style="display:none;">
+                    <h2 class="form-title">Admin Login</h2>
+                    <input type="text" id="admin-name" placeholder="Name" required class="styled-input">
+                    <input type="email" id="admin-email" placeholder="Email" required class="styled-input">
+                    <input type="password" id="admin-password" placeholder="Password" required class="styled-input">
+                    <input type="text" id="admin-region" placeholder="Region" required class="styled-input">
+                    <input type="tel" id="admin-phone" placeholder="Phone No" required class="styled-input">
+                    <button type="submit" id="admin-login-button">Login</button>
+                    <div id="admin-login-message"></div>
+                </form>
+                <form id="register-form" class="toggle-form" style="margin-top:2rem;">
+                    <h2 class="form-title">Register</h2>
+                    <input type="email" id="register-email" placeholder="Email" required>
+                    <input type="password" id="register-password" placeholder="Password" required>
+                    <select id="register-role" required style="margin-bottom:1rem;">
+                        <option value="">Select Role</option>
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                    <input type="text" id="register-admin-name" placeholder="Admin Name" style="display:none;" class="styled-input">
+                    <input type="tel" id="register-admin-phone" placeholder="Admin Phone" style="display:none;" class="styled-input">
+                    <input type="text" id="register-admin-region" placeholder="Admin Region" style="display:none;" class="styled-input">
+                    <button type="submit" id="signup-button">Register</button>
+                    <div id="signup-message"></div>
+                </form>
+                <button id="google-login-button" type="button" style="width:100%;margin:1rem 0 0 0;padding:0.7rem 0;font-weight:600;background:#fff;color:#1e3c72;border:1px solid #1e3c72;border-radius:8px;cursor:pointer;">Sign in with Google</button>
+                <div id="google-login-message"></div>
+                <div id="user-status" style="margin-top:1.5rem;font-weight:600;"></div>
+                <button id="logout-button" type="button" style="display:none;width:100%;margin:0.5rem 0 0 0;padding:0.7rem 0;font-weight:600;background:#fff;color:#1e3c72;border:1px solid #1e3c72;border-radius:8px;cursor:pointer;">Logout</button>
+                <div id="logout-message"></div>
+            </section>
+        </div>
+    </main>
+    <script type="module" src="./main-frontend.js"></script>
+</body>
+</html>
