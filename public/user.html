@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Dashboard - Rootify</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- UPDATED: Content Security Policy (CSP) to allow all necessary connections -->
-</head>
+    </head>
 <body>
     <div class="center-logo-box">
         <div class="center-logo-img">
@@ -17,22 +16,39 @@
 
     <main class="user-main-content">
         <div class="user-content-box">
-            <h2>Welcome to Rootify!</h2>
+            <div class="welcome-section">
+                <h2>Welcome to Rootify!</h2>
+                <button id="user-logout-btn" class="logout-button">Log Out</button>
+            </div>
             <p style="text-align: center; color: #333;">Explore recommended soil types and our trusted distributors.</p>
 
             <h3>Available Soil Types</h3>
+
+            <div class="soil-filter-section">
+                <input type="text" id="soil-filter-input" placeholder="Type soil name to filter..." class="styled-input">
+                <button id="filter-soil-btn">Filter Soils</button>
+                <button id="clear-soil-filter-btn" style="background-color: #f44336; margin-top: 0.5rem;">Clear Filter</button>
+            </div>
+
             <ul id="user-soil-list" class="data-list">
                 <li>Loading soil data...</li>
             </ul>
 
             <h3>Our Distributors</h3>
+
+            <div class="distributor-filter-section">
+                <input type="text" id="distributor-name-filter" placeholder="Filter by name..." class="styled-input">
+                <input type="text" id="distributor-location-filter" placeholder="Filter by location..." class="styled-input">
+                <button id="filter-distributors-btn">Filter Distributors</button>
+                <button id="clear-distributor-filter-btn" style="background-color: #f44336; margin-top: 0.5rem;">Clear Filter</button>
+            </div>
+
             <ul id="user-distributor-list" class="data-list">
                 <li>Loading distributor data...</li>
             </ul>
 
             <hr>
 
-            <!-- Soil Recommendation AI Assistant Section -->
             <div class="data-management-section ai-assistant-section">
                 <h3>✨ Soil Recommendation Assistant</h3>
                 <p>Describe your farm and needs, and our AI will suggest suitable soil types and crops.</p>
@@ -40,13 +56,11 @@
                 <button id="get-ai-recommendation-btn">Get AI Recommendation</button>
                 <p id="ai-recommendation-status" class="status-message"></p>
                 <div id="ai-recommendation-output" class="ai-output-box">
-                    <!-- AI recommendations will appear here -->
-                </div>
+                    </div>
             </div>
 
             <hr>
 
-            <!-- Crop Disease & Pest Identification Section -->
             <div class="data-management-section ai-assistant-section">
                 <h3>🌿 Crop Disease & Pest Identifier</h3>
                 <p>Upload an image of your plant and describe the symptoms to get a diagnosis and recommendations.</p>
@@ -59,8 +73,7 @@
                 <button id="get-crop-diagnosis-btn">Analyze Plant</button>
                 <p id="crop-diagnosis-status" class="status-message"></p>
                 <div id="crop-diagnosis-output" class="ai-output-box">
-                    <!-- AI diagnosis and recommendations will appear here -->
-                </div>
+                    </div>
             </div>
 
         </div>

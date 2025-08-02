@@ -6,7 +6,6 @@ console.log('Main Frontend script loaded');
 import {
     auth,
     db,
-    // doc, getDoc, setDoc, are now imported directly from CDN below
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     GoogleAuthProvider,
@@ -15,7 +14,7 @@ import {
     signOut
 } from './firebase-init.js';
 
-// NEW: Explicitly import doc, getDoc, and setDoc directly from Firestore CDN for robustness
+// Explicitly import doc, getDoc, and setDoc directly from Firestore CDN for robustness
 import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
 
@@ -26,18 +25,23 @@ const userLoginForm = document.getElementById('user-login-form');
 const adminLoginForm = document.getElementById('admin-login-form');
 const registerForm = document.getElementById('register-form');
 
+// Variable to store the intended role for Google Sign-In
+let intendedGoogleSignInRole = 'user'; // Default to user
+
 if (userBtn && adminBtn && userLoginForm && adminLoginForm && registerForm) {
     userBtn.addEventListener('click', () => {
         userBtn.classList.add('active');
         adminBtn.classList.remove('active');
         userLoginForm.style.display = '';
         adminLoginForm.style.display = 'none';
+        intendedGoogleSignInRole = 'user'; // Set intended role to user
     });
     adminBtn.addEventListener('click', () => {
         adminBtn.classList.add('active');
         userBtn.classList.remove('active');
         adminLoginForm.style.display = '';
         userLoginForm.style.display = 'none';
+        intendedGoogleSignInRole = 'admin'; // Set intended role to admin
     });
 }
 
@@ -67,7 +71,7 @@ if (registerForm) {
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
-            await setDoc(doc(db, 'users', user.uid), { // Using the directly imported setDoc
+            await setDoc(doc(db, 'users', user.uid), {
                 email: user.email,
                 role,
                 name: role === 'admin' ? name : '',
@@ -125,11 +129,11 @@ if (userLoginForm) {
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const uid = userCredential.user.uid;
-            const userDoc = await getDoc(doc(db, 'users', uid)); // Using the directly imported getDoc
+            const userDoc = await getDoc(doc(db, 'users', uid));
             if (userDoc.exists() && userDoc.data().role === 'user') {
                 window.location.href = 'user.html';
             } else {
-                loginMessage.textContent = 'Not a user account.';
+                loginMessage.textContent = 'Not a user account or invalid credentials.'; // More general message
                 loginMessage.style.color = 'red';
             }
         } catch (error) {
@@ -149,11 +153,11 @@ if (adminLoginForm) {
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const uid = userCredential.user.uid;
-            const userDoc = await getDoc(doc(db, 'users', uid)); // Using the directly imported getDoc
+            const userDoc = await getDoc(doc(db, 'users', uid));
             if (userDoc.exists() && userDoc.data().role === 'admin') {
                 window.location.href = 'admin.html';
             } else {
-                adminLoginMessage.textContent = 'Not an admin account.';
+                adminLoginMessage.textContent = 'Not an admin account or invalid credentials.'; // More general message
                 adminLoginMessage.style.color = 'red';
             }
         } catch (error) {
@@ -172,36 +176,58 @@ if (googleLoginButton) {
         try {
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
-            // After successful Google login, check/set user role in Firestore
             const userDocRef = doc(db, 'users', user.uid);
-            const userDocSnap = await getDoc(userDocRef); // Using the directly imported getDoc
+            const userDocSnap = await getDoc(userDocRef);
 
             if (!userDocSnap.exists()) {
-                // New Google user, set default 'user' role
-                await setDoc(userDocRef, { // Using the directly imported setDoc
+                // New Google user: Assign role based on what was intended at the time of click
+                await setDoc(userDocRef, {
                     email: user.email,
-                    role: 'user', // Default role for new Google sign-ups
+                    role: intendedGoogleSignInRole, // Use the stored intended role
                     name: user.displayName || '',
                     phone_number: '',
                     region: ''
                 });
-                console.log("New Google user registered with default 'user' role.");
-                // Redirect user to user.html after default role set
-                window.location.href = 'user.html';
-            } else {
-                // Existing Google user, check role and redirect
-                const userData = userDocSnap.data();
-                if (userData.role === 'user') {
-                    window.location.href = 'user.html';
-                } else if (userData.role === 'admin') {
+                console.log(`New Google user registered with '${intendedGoogleSignInRole}' role.`);
+                // Redirect based on the assigned role
+                if (intendedGoogleSignInRole === 'admin') {
                     window.location.href = 'admin.html';
                 } else {
+                    window.location.href = 'user.html';
+                }
+            } else {
+                // Existing Google user: Check their stored role
+                const userData = userDocSnap.data();
+
+                // If existing user is an admin, always redirect to admin page
+                if (userData.role === 'admin') {
+                    window.location.href = 'admin.html';
+                }
+                // If existing user is a user, and they tried to log in as admin
+                else if (userData.role === 'user' && intendedGoogleSignInRole === 'admin') {
+                    // This is the specific scenario causing the issue for existing users
+                    // They are a 'user' in Firestore but tried to sign in via the 'Admin' button.
+                    googleLoginMessage.textContent = 'Your account is registered as a User. Please use the User login or contact support to change your role to Admin.';
+                    googleLoginMessage.style.color = 'red';
+                    // Optionally, sign them out to prevent them from being logged in as a 'user' unexpectedly
+                    await signOut(auth);
+                }
+                // If existing user is a user, and they tried to log in as a user (or default case)
+                else if (userData.role === 'user' && intendedGoogleSignInRole === 'user') {
+                     window.location.href = 'user.html';
+                }
+                // Fallback for unrecognized roles
+                else {
                     googleLoginMessage.textContent = 'User has an unrecognized role. Please contact support.';
                     googleLoginMessage.style.color = 'red';
+                    await signOut(auth); // Sign out unrecognized roles
                 }
             }
-            googleLoginMessage.textContent = `Signed in with Google: ${user.displayName || user.email}!`;
-            googleLoginMessage.style.color = 'green';
+            // Clear message if successful, or if message was set in error handler above
+            if (!googleLoginMessage.textContent.includes("Error:") && !googleLoginMessage.textContent.includes("account is registered")) {
+                googleLoginMessage.textContent = `Signed in with Google: ${user.displayName || user.email}!`;
+                googleLoginMessage.style.color = 'green';
+            }
         } catch (error) {
             let errorMessage = 'An error occurred during Google sign-in.';
             const errorCode = error.code;

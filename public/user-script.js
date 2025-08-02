@@ -1,8 +1,8 @@
 // user-script.js
-import { db, collection, getDocs } from './firebase-init.js';
+import { db, collection, getDocs, auth, signOut } from './firebase-init.js'; // Ensure auth and signOut are explicitly imported
 
-// NEW: Explicitly import doc and getDoc directly from Firestore CDN for robustness
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+// Explicitly import doc and getDoc directly from Firestore CDN for robustness
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js"; //
 
 
 // --- Element Selections (Global Scope) ---
@@ -19,14 +19,32 @@ const aiRecommendationOutput = document.getElementById('ai-recommendation-output
 const cropImageUpload = document.getElementById('crop-image-upload');
 const imagePreviewContainer = document.getElementById('image-preview-container');
 const uploadedCropImage = document.getElementById('uploaded-crop-image');
-// FIX: Corrected ID for clearCropImageBtn to match HTML
 const clearCropImageBtn = document.getElementById('clear-crop-image');
 const cropSymptomsInput = document.getElementById('crop-symptoms-input');
 const getCropDiagnosisBtn = document.getElementById('get-crop-diagnosis-btn');
 const cropDiagnosisStatus = document.getElementById('crop-diagnosis-status');
 const cropDiagnosisOutput = document.getElementById('crop-diagnosis-output');
 
+// Elements for Soil Filtering
+const soilFilterInput = document.getElementById('soil-filter-input');
+const filterSoilBtn = document.getElementById('filter-soil-btn');
+const clearSoilFilterBtn = document.getElementById('clear-soil-filter-btn');
+
+// Elements for Distributor Filtering
+const distributorNameFilter = document.getElementById('distributor-name-filter');
+const distributorLocationFilter = document.getElementById('distributor-location-filter');
+const filterDistributorsBtn = document.getElementById('filter-distributors-btn');
+const clearDistributorFilterBtn = document.getElementById('clear-distributor-filter-btn');
+
+// User Logout Button
+const userLogoutBtn = document.getElementById('user-logout-btn');
+
+
 let selectedCropImageFile = null; // To store the selected crop image file
+
+// Store all fetched data
+let allSoilTypes = [];
+let allDistributors = []; // Store all fetched distributor data
 
 // --- Initial Element Check (Global Scope) ---
 console.log('user-script.js loaded.');
@@ -41,6 +59,14 @@ console.log('uploadedCropImage:', uploadedCropImage);
 console.log('clearCropImageBtn:', clearCropImageBtn);
 console.log('cropSymptomsInput:', cropSymptomsInput);
 console.log('getCropDiagnosisBtn:', getCropDiagnosisBtn);
+console.log('soilFilterInput:', soilFilterInput);
+console.log('filterSoilBtn:', filterSoilBtn);
+console.log('clearSoilFilterBtn:', clearSoilFilterBtn);
+console.log('distributorNameFilter:', distributorNameFilter);
+console.log('distributorLocationFilter:', distributorLocationFilter);
+console.log('filterDistributorsBtn:', filterDistributorsBtn);
+console.log('clearDistributorFilterBtn:', clearDistributorFilterBtn);
+console.log('userLogoutBtn:', userLogoutBtn);
 console.log('------------------------------');
 
 
@@ -51,31 +77,72 @@ async function fetchUserSoilTypes() {
         console.log("Fetched soil types:", querySnapshot.docs.map(doc => doc.data()));
         if (querySnapshot.empty) {
             userSoilList.innerHTML = '<li>No soil types available.</li>';
+            allSoilTypes = [];
             return;
         }
-        userSoilList.innerHTML = '';
-        querySnapshot.forEach(docSnap => {
-            const data = docSnap.data();
-            const li = document.createElement('li');
-
-            const adminName = data.addedByAdminName || 'Unknown Admin';
-            const adminPhoneNumber = data.addedByAdminPhoneNumber || data.addedByAdminPhone || 'N/A';
-
-            li.innerHTML = `
-                <strong>${data.name}</strong><br>
-                pH: ${data.pH}<br>
-                Nutrients: ${data.nutrients}<br>
-                Water Retention: ${data.waterRetention}<br>
-                Recommended Crops: ${Array.isArray(data.recommendedCrops) ? data.recommendedCrops.join(', ') : 'N/A'}<br>
-                Added by: ${adminName} (Contact: ${adminPhoneNumber})
-            `;
-            userSoilList.appendChild(li);
-        });
+        allSoilTypes = querySnapshot.docs.map(docSnap => ({
+            id: docSnap.id,
+            data: docSnap.data()
+        }));
+        displaySoilTypes(allSoilTypes);
     } catch (error) {
         console.error("Detailed error (Soil Types):", error);
         userSoilList.innerHTML = '<li>Error loading soil types. Make sure your Firebase security rules allow read access for authenticated users.</li>';
+        allSoilTypes = [];
     }
 }
+
+function displaySoilTypes(soilsToDisplay) {
+    userSoilList.innerHTML = '';
+    if (soilsToDisplay.length === 0) {
+        userSoilList.innerHTML = '<li>No matching soil types found.</li>';
+        return;
+    }
+    soilsToDisplay.forEach(item => {
+        const data = item.data;
+        const li = document.createElement('li');
+
+        const adminName = data.addedByAdminName || 'Unknown Admin';
+        const adminPhoneNumber = data.addedByAdminPhoneNumber || data.addedByAdminPhone || 'N/A';
+
+        li.innerHTML = `
+            <strong>${data.name}</strong><br>
+            pH: ${data.pH}<br>
+            Nutrients: ${data.nutrients}<br>
+            Water Retention: ${data.waterRetention}<br>
+            Recommended Crops: ${Array.isArray(data.recommendedCrops) ? data.recommendedCrops.join(', ') : 'N/A'}<br>
+            Added by: ${adminName} (Contact: ${adminPhoneNumber})
+        `;
+        userSoilList.appendChild(li);
+    });
+}
+
+function filterAndDisplaySoils() {
+    const filterText = soilFilterInput.value.trim().toLowerCase();
+
+    if (!filterText) {
+        displaySoilTypes(allSoilTypes);
+        return;
+    }
+
+    const filteredSoils = allSoilTypes.filter(item => {
+        return item.data.name.toLowerCase().includes(filterText);
+    });
+
+    displaySoilTypes(filteredSoils);
+}
+
+if (filterSoilBtn) {
+    filterSoilBtn.addEventListener('click', filterAndDisplaySoils);
+}
+
+if (clearSoilFilterBtn) {
+    clearSoilFilterBtn.addEventListener('click', () => {
+        soilFilterInput.value = '';
+        displaySoilTypes(allSoilTypes);
+    });
+}
+
 
 async function fetchUserDistributors() {
     userDistributorList.innerHTML = '<li>Loading distributors...</li>';
@@ -84,29 +151,82 @@ async function fetchUserDistributors() {
         console.log("Fetched distributors:", querySnapshot.docs.map(doc => doc.data()));
         if (querySnapshot.empty) {
             userDistributorList.innerHTML = '<li>No distributors available.</li>';
+            allDistributors = [];
             return;
         }
-        userDistributorList.innerHTML = '';
-        querySnapshot.forEach(docSnap => {
-            const data = docSnap.data();
-            const li = document.createElement('li');
-
-            const adminName = data.addedByAdminName || 'Unknown Admin';
-            const adminPhoneNumber = data.addedByAdminPhoneNumber || data.addedByAdminPhone || 'N/A';
-
-            li.innerHTML = `
-                <strong>${data.name}</strong><br>
-                Contact: ${data.contact}<br>
-                Location: ${data.location}<br>
-                Added by: ${adminName} (Phone: ${adminPhoneNumber})
-            `;
-            userDistributorList.appendChild(li);
-        });
+        allDistributors = querySnapshot.docs.map(docSnap => ({
+            id: docSnap.id,
+            data: docSnap.data()
+        }));
+        displayDistributors(allDistributors);
     } catch (error) {
         console.error("Detailed error (Distributors):", error);
         userDistributorList.innerHTML = '<li>Error loading distributors. Make sure your Firebase security rules allow read access for authenticated users.</li>';
+        allDistributors = [];
     }
 }
+
+function displayDistributors(distributorsToDisplay) {
+    userDistributorList.innerHTML = '';
+    if (distributorsToDisplay.length === 0) {
+        userDistributorList.innerHTML = '<li>No matching distributors found.</li>';
+        return;
+    }
+    distributorsToDisplay.forEach(item => {
+        const data = item.data;
+        const li = document.createElement('li');
+
+        const adminName = data.addedByAdminName || 'Unknown Admin';
+        const adminPhoneNumber = data.addedByAdminPhoneNumber || data.addedByAdminPhone || 'N/A';
+
+        li.innerHTML = `
+            <strong>${data.name}</strong><br>
+            Contact: ${data.contact}<br>
+            Location: ${data.location}<br>
+            Added by: ${adminName} (Phone: ${adminPhoneNumber})
+        `;
+        userDistributorList.appendChild(li);
+    });
+}
+
+function filterAndDisplayDistributors() {
+    const nameFilterText = distributorNameFilter.value.trim().toLowerCase();
+    const locationFilterText = distributorLocationFilter.value.trim().toLowerCase();
+
+    if (!nameFilterText && !locationFilterText) {
+        displayDistributors(allDistributors);
+        return;
+    }
+
+    const filteredDistributors = allDistributors.filter(item => {
+        const nameMatches = item.data.name.toLowerCase().includes(nameFilterText);
+        const locationMatches = item.data.location.toLowerCase().includes(locationFilterText);
+
+        if (nameFilterText && locationFilterText) {
+            return nameMatches && locationMatches;
+        } else if (nameFilterText) {
+            return nameMatches;
+        } else if (locationFilterText) {
+            return locationMatches;
+        }
+        return false;
+    });
+
+    displayDistributors(filteredDistributors);
+}
+
+if (filterDistributorsBtn) {
+    filterDistributorsBtn.addEventListener('click', filterAndDisplayDistributors);
+}
+
+if (clearDistributorFilterBtn) {
+    clearDistributorFilterBtn.addEventListener('click', () => {
+        distributorNameFilter.value = '';
+        distributorLocationFilter.value = '';
+        displayDistributors(allDistributors);
+    });
+}
+
 
 function displayStatusMessage(element, message, isError = false) {
     element.textContent = message;
@@ -130,7 +250,7 @@ function getBase64(file) {
 // AI Recommendation Logic (Existing)
 if (getAiRecommendationBtn) {
     getAiRecommendationBtn.addEventListener('click', async () => {
-        console.log('AI Recommendation button clicked!'); // Log for this button
+        console.log('AI Recommendation button clicked!');
         const userPrompt = aiRecommendationInput.value.trim();
 
         if (!userPrompt) {
@@ -144,9 +264,8 @@ if (getAiRecommendationBtn) {
 
         try {
             let chatHistory = [];
-            // UPDATED PROMPT: Request concise, summarized, easy-to-understand response
-            chatHistory.push({ role: "user", parts: [{ text: `As a soil farming agent AI, provide a very concise, summarized, and easy-to-understand soil and crop recommendation based on the following user description. Use simple language and brief bullet points if necessary.
-            
+            chatHistory.push({ role: "user", parts: [{ text: `As a soil farming agent AI, provide a very concise, summarized, and easy-to-understand soil and crop recommendation based on the following user description. Use simple language and brief bullet points if necessary don't use ## and ** in conversation.
+
             User Description: ${userPrompt}` }] });
 
             const payload = { contents: chatHistory };
@@ -194,7 +313,7 @@ if (getAiRecommendationBtn) {
     });
 }
 
-// NEW: Crop Disease & Pest Identification Logic
+// Crop Disease & Pest Identification Logic (Existing)
 if (cropImageUpload) {
     console.log('Adding event listener to cropImageUpload.');
     cropImageUpload.addEventListener('change', (event) => {
@@ -230,7 +349,7 @@ if (clearCropImageBtn) {
 if (getCropDiagnosisBtn) {
     console.log('Adding event listener to getCropDiagnosisBtn.');
     getCropDiagnosisBtn.addEventListener('click', async () => {
-        console.log('Analyze Plant button clicked!'); // This should definitely appear on click
+        console.log('Analyze Plant button clicked!');
         const symptomsText = cropSymptomsInput.value.trim();
 
         if (!selectedCropImageFile && !symptomsText) {
@@ -241,7 +360,7 @@ if (getCropDiagnosisBtn) {
 
         displayStatusMessage(cropDiagnosisStatus, 'Analyzing plant...', false);
         getCropDiagnosisBtn.disabled = true;
-        cropDiagnosisOutput.innerHTML = ''; // Clear previous output
+        cropDiagnosisOutput.innerHTML = '';
         console.log('Starting AI analysis...');
 
         let imageData = null;
@@ -263,12 +382,11 @@ if (getCropDiagnosisBtn) {
 
         try {
             const parts = [];
-            // UPDATED PROMPT: Request concise, summarized, easy-to-understand response
             if (symptomsText) {
-                parts.push({ text: `Analyze the following plant image for diseases or pests based on the symptoms described. Provide a very concise, summarized, and easy-to-understand diagnosis and specific recommendations for treatment or prevention. Use simple language and brief bullet points if necessary.\n\nSymptoms: ${symptomsText}` });
+                parts.push({ text: `Analyze the following plant image for diseases or pests based on the symptoms described. Provide a very concise, summarized, and easy-to-understand diagnosis and specific recommendations for treatment or prevention. Use simple language and brief bullet points if necessary.don't use ## and ** in solution.\n\nSymptoms: ${symptomsText}` });
                 console.log('Text prompt included.');
             } else {
-                parts.push({ text: `Analyze the following plant image for diseases or pests. Provide a very concise, summarized, and easy-to-understand diagnosis and specific recommendations for treatment or prevention. Use simple language and brief bullet points if necessary.` });
+                parts.push({ text: `Analyze the following plant image for diseases or pests. Provide a very concise, summarized, and easy-to-understand diagnosis and specific recommendations for treatment or prevention. Use simple language and brief bullet points if necessary.don't use ## and ** in solution` });
                 console.log('Image-only prompt included.');
             }
 
@@ -283,8 +401,8 @@ if (getCropDiagnosisBtn) {
             }
 
             const payload = { contents: [{ role: "user", parts: parts }] };
-            const apiKey = ""; // Canvas will automatically provide the API key
-            const apiUrl = `http://localhost:3000/ask-gemini`; // Pointing to your Node.js backend
+            const apiKey = "";
+            const apiUrl = `http://localhost:3000/ask-gemini`;
 
             console.log('Sending request to backend:', apiUrl, 'with payload:', payload);
 
@@ -327,12 +445,23 @@ if (getCropDiagnosisBtn) {
     });
 }
 
+// Logout functionality for user page
+if (userLogoutBtn) {
+    userLogoutBtn.addEventListener('click', async () => {
+        try {
+            await signOut(auth); // 'auth' imported from firebase-init.js
+            console.log("User successfully signed out from user.html.");
+            window.location.href = 'index.html'; // Redirect to the main login page
+        } catch (error) {
+            console.error("Error signing out from user.html:", error);
+            alert("Failed to log out. Please try again.");
+        }
+    });
+}
+
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM Content Loaded. Initializing data fetches.');
     fetchUserSoilTypes();
     fetchUserDistributors();
 });
-
-
-

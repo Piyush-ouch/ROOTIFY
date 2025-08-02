@@ -126,35 +126,10 @@ body {
     object-fit: cover;
     border-radius: 16px;
 }
-.image-overlay-text {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    transform: translate(0, -50%);
-    background: rgba(255,255,255,0.45);
-    padding: 1.2rem 2rem;
-    border-radius: 14px;
-    box-shadow: 0 2px 12px rgba(30,60,114,0.10);
-    text-align: left;
-    min-width: 320px;
-    max-width: 380px;
-}
-.image-overlay-text.left-align {
-    left: 40px;
-    transform: translate(0, -50%);
-    text-align: left;
-}
-.overlay-title {
-    color: #1e3c72;
-    font-size: 1.7rem;
-    font-weight: bold;
-    margin: 0 0 0.5rem 0;
-}
-.overlay-desc {
-    color: #333;
-    font-size: 1.05rem;
-    margin: 0;
-}
+/* REMOVED: .image-overlay-text */
+/* REMOVED: .image-overlay-text.left-align */
+/* REMOVED: .overlay-title */
+/* REMOVED: .overlay-desc */
 
 /* Auth Section (login/register forms) */
 #auth-section {
@@ -491,29 +466,35 @@ hr {
     /* Main container and content */
     .main-container {
         flex-direction: column;
-        align-items: stretch; /* Stretch to fill width */
+        align-items: center; /* Center children horizontally */
         margin-top: 1.5rem; /* Adjusted margin */
         padding: 0 1rem; /* Add horizontal padding */
     }
     .main-content {
         flex-direction: column;
         gap: 1.2rem;
-        width: 100%; /* Use full width */
+        width: 95%; /* Use full width for mobile */
+        max-width: 500px; /* Restrict max width on smaller screens */
+        margin: 0 auto; /* Center the content */
         margin-top: 0; /* Margin handled by main-container */
         padding: 0; /* No extra padding inside main-content here */
     }
     .carousel-box {
-        height: 220px;
-        max-height: 350px;
-        margin-bottom: 0; /* Remove extra margin here */
+        height: 180px; /* Reduced height for better mobile fit */
+        max-height: 250px; /* Reduced max height */
+        margin-bottom: 1.5rem; /* Add space between carousel and auth */
     }
     .image-box {
         height: 100%; /* Use full height of carousel-box */
         margin: auto; /* Center horizontally */
     }
+    /* REMOVED: .image-overlay-text */
+    /* REMOVED: .overlay-title */
+    /* REMOVED: .overlay-desc */
     #auth-section {
         max-width: 100%; /* Take full width on smaller screens */
         padding: 1.2rem 0.7rem;
+        box-sizing: border-box; /* Ensure padding is included in width */
     }
     #login-toggle {
         margin-top: 1rem;
@@ -553,6 +534,7 @@ hr {
     .main-content {
         gap: 0.7rem;
         padding: 0;
+        width: 100%; /* Ensure it takes full width on smallest screens */
     }
     .carousel-box {
         height: 140px;
@@ -767,5 +749,107 @@ hr {
         width: 24px;
         height: 24px;
         font-size: 0.7rem;
+    }
+}
+/* NEW: Admin Badge System Styles */
+.admin-badge-section {
+    /* Inherits from .data-management-section for glassmorphism look */
+    text-align: center; /* Center content within the section */
+    padding: 2rem 2.5rem; /* Consistent padding */
+}
+
+.admin-badge-section h3 {
+    color: #1e3c72; /* Consistent heading color */
+    margin-bottom: 1rem;
+}
+
+.badge-status {
+    background: rgba(255,255,255,0.3);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(30,60,114,0.08);
+}
+
+.badge-status p {
+    margin: 0.5rem 0;
+    font-size: 1.05rem;
+    color: #333;
+}
+
+.badge-status strong {
+    font-size: 1.2rem;
+    color: #29516a; /* Highlight badge name */
+}
+
+.badge-check-button {
+    background-color: #28a745; /* Green color for action button */
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-bottom: 2rem; /* Space below button */
+}
+
+.badge-check-button:hover {
+    background-color: #218838;
+    transform: translateY(-1px);
+}
+
+.badge-criteria {
+    text-align: left; /* Align criteria text to left */
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+.badge-criteria h4 {
+    color: #1e3c72;
+    margin-top: 0;
+    margin-bottom: 0.8rem;
+}
+
+.badge-criteria ul {
+    list-style: none; /* Remove default bullet points */
+    padding: 0;
+    margin: 0;
+}
+
+.badge-criteria li {
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+/* Specific badge colors for visual appeal */
+.badge-status strong.bronze { color: #cd7f32; } /* Bronze color */
+.badge-status strong.silver { color: #c0c0c0; } /* Silver color */
+.badge-status strong.gold { color: #ffd700; }   /* Gold color */
+
+/* Responsive adjustments for badge section */
+@media (max-width: 600px) {
+    .admin-badge-section {
+        padding: 1.5rem 1rem; /* Adjust padding for smaller screens */
+    }
+    .badge-status p {
+        font-size: 0.95rem;
+    }
+    .badge-status strong {
+        font-size: 1.1rem;
+    }
+    .badge-check-button {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+    }
+    .badge-criteria {
+        padding: 0.8rem 1rem;
+    }
+    .badge-criteria li {
+        font-size: 0.85rem;
     }
 }
