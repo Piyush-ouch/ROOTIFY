@@ -28,7 +28,7 @@ const cropDiagnosisOutput = document.getElementById('crop-diagnosis-output');
 // Elements for Soil Filtering
 const soilFilterInput = document.getElementById('soil-filter-input');
 const filterSoilBtn = document.getElementById('filter-soil-btn');
-const clearSoilFilterBtn = document.getElementById('clear-soil-filter-btn');
+const clearSoilFilterBtn = document = document.getElementById('clear-soil-filter-btn');
 
 // Elements for Distributor Filtering
 const distributorNameFilter = document.getElementById('distributor-name-filter');
@@ -270,7 +270,7 @@ if (getAiRecommendationBtn) {
 
             const payload = { contents: chatHistory };
             const apiKey = ""; // Canvas will automatically provide the API key
-            const apiUrl = `http://localhost:3000/ask-gemini`; // Pointing to your Node.js backend
+            const apiUrl = `https://rootify-back.onrender.com/ask-gemini`; // Updated to use your live backend URL
 
             console.log('Sending AI Recommendation request to backend:', apiUrl);
 
@@ -402,9 +402,9 @@ if (getCropDiagnosisBtn) {
 
             const payload = { contents: [{ role: "user", parts: parts }] };
             const apiKey = "";
-            const apiUrl = `http://localhost:3000/ask-gemini`;
+            const apiUrl = `https://rootify-back.onrender.com/ask-gemini`; // Updated to use your live backend URL
 
-            console.log('Sending request to backend:', apiUrl, 'with payload:', payload);
+            console.log('Sending request to backend:', apiUrl);
 
             const response = await fetch(apiUrl, {
                 method: 'POST',
