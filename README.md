@@ -1,7 +1,7 @@
 # Rootify
 
 <div align="center">
-    <img src="public/pic/root.png" alt="Rootify Logo" width="150" height="150" style="border-radius: 50%;">
+    <img src="public/pic/root.png" alt="Rootify Logo" width="200" height="200" style="border-radius: 50%;">
 </div>
 
 **Rootify** is a full-stack web application designed to empower farmers and administrators with smart agricultural insights. It provides a platform for admins to share vital information about soil types and distributors, while offering users a powerful AI assistant for advanced agricultural queries, including plant disease diagnosis from images.
