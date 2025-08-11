@@ -1,4 +1,4 @@
-# Rootify
+# Rootify  
 
 <div align="center">
     <img src="public/pic/root.png" alt="Rootify Logo" width="200" height="200" style="border-radius: 50%;">
