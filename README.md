@@ -1,6 +1,6 @@
 # Rootify
 
-![Rootify Logo](pic/logo.png)
+![Rootify Logo](public/pic/root.png)
 
 **Rootify** is a full-stack web application designed to empower farmers and administrators with smart agricultural insights. It provides a platform for admins to share vital information about soil types and distributors, while offering users a powerful AI assistant for advanced agricultural queries, including plant disease diagnosis from images.
 
